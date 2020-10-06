@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nepali_calendar/src/reuseables/dot.dart';
 import 'package:nepali_calendar/src/reuseables/flat_icon_button.dart';
-import 'package:nepali_calendar/src/widgets/downloading_widget.dart';
+import 'package:nepali_calendar/src/screens/downloading_widget.dart';
 import 'package:nepali_calendar/src/widgets/first_starting_1.dart';
 import 'package:nepali_calendar/src/widgets/first_starting_2.dart';
 import 'package:nepali_calendar/src/widgets/first_starting_3.dart';

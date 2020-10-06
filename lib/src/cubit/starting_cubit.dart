@@ -8,7 +8,7 @@ class StartingCubit extends Cubit<bool> {
 
   getStartingPage() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    bool firstOrNot = preferences.getBool('firstOrNot') ?? true;
+    bool firstOrNot = preferences.getBool('firstOrNot') ?? false;
     if (firstOrNot == true) {
       emit(true);
     } else {
