@@ -1,14 +1,68 @@
 import 'package:flutter/material.dart';
-import 'package:nepali_calendar/data/years/2000.json';
+import 'package:nepali_calendar/src/cubit/starting_cubit.dart';
+import 'package:nepali_calendar/src/cubit/timer_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:async';
 
-class AppBase extends StatelessWidget {
+import 'package:nepali_calendar/src/models/time_model.dart';
+import 'package:nepali_calendar/src/reuseables/full_screen_scaffold_loader.dart';
+import 'package:nepali_calendar/src/widgets/bottom_navigation_bar.dart';
+import 'package:nepali_calendar/src/widgets/first_starting.dart';
+
+class AppBase extends StatefulWidget {
+  @override
+  _AppBaseState createState() => _AppBaseState();
+}
+
+class _AppBaseState extends State<AppBase> {
+  Timer timeTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    timeTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+      context.bloc<TimerCubit>().getNewDateTime();
+    });
+  }
+
+  @override
+  void dispose() {
+    timeTimer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: Theme.of(context).primaryColor,
-        child: Text('This is a container'),
-      ),
+    return BlocBuilder<StartingCubit, bool>(
+      builder: (context, state) {
+        // while processing
+        if (state == null)
+          return FullScreenScaffoldLoadingScreen();
+        else if (state == true)
+          // if loading for first time
+          return FirstWidget();
+        // if loaging not for first time
+        return Scaffold(
+          backgroundColor: Theme.of(context).primaryColorDark,
+          body: BlocBuilder<TimerCubit, CurrentTimeModel>(
+            builder: (context, state) {
+              return ListView(
+                children: [
+                  Text(state.englishDateTime.toString()),
+                  Text(state.nepaliDateTime.toString()),
+                ],
+              );
+            },
+          ),
+          bottomNavigationBar: CustomBottomNavigationBar(),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.calendar_today),
+            onPressed: () {},
+          ),
+        );
+      },
     );
   }
 }
