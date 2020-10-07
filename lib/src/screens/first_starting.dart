@@ -32,7 +32,7 @@ class _FirstWidgetState extends State<FirstWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Theme.of(context).primaryColorDark,
       body: PageView(
         controller: _pageController,
         onPageChanged: (value) {
@@ -47,7 +47,7 @@ class _FirstWidgetState extends State<FirstWidget> {
         ],
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Theme.of(context).primaryColorDark,
+        color: Theme.of(context).primaryColor,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5.0),
           child: Row(

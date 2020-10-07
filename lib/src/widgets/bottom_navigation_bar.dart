@@ -1,42 +1,82 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nepali_calendar/src/cubit/bottom_menu_cubit.dart';
+import 'package:nepali_calendar/src/cubit/language_cubit.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BottomAppBar(
-      color: Theme.of(context).primaryColor,
-      shape: CircularNotchedRectangle(),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          FlatButton.icon(
-            label: Text(
-              'Menu',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onPrimary,
+    return BlocBuilder<BottomMenuCubit, bool>(
+      builder: (context, bottomMenuState) {
+        return BottomAppBar(
+          elevation: bottomMenuState ? 0.0 : 5.0,
+          color: Theme.of(context).primaryColor,
+          shape: bottomMenuState ? null : CircularNotchedRectangle(),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              AnimatedCrossFade(
+                crossFadeState: bottomMenuState
+                    ? CrossFadeState.showSecond
+                    : CrossFadeState.showFirst,
+                duration: Duration(milliseconds: 350),
+                firstChild: FlatButton.icon(
+                  label: Text(
+                    'Menu',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  ),
+                  icon: Icon(
+                    Icons.menu,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                  onPressed: () {
+                    context.bloc<BottomMenuCubit>().toggleMenu();
+                  },
+                ),
+                secondChild: FlatButton.icon(
+                  label: Text(
+                    'Close',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  ),
+                  icon: Icon(
+                    Icons.close,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                  onPressed: () {
+                    context.bloc<BottomMenuCubit>().toggleMenu();
+                  },
+                ),
               ),
-            ),
-            icon: Icon(
-              Icons.menu,
-              color: Theme.of(context).colorScheme.onPrimary,
-            ),
-            onPressed: () {},
-          ),
-          FlatButton.icon(
-            label: Text(
-              'Search',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onPrimary,
+              AnimatedOpacity(
+                opacity: bottomMenuState ? 0.0 : 1.0,
+                duration: Duration(milliseconds: 350),
+                child: AbsorbPointer(
+                  absorbing: bottomMenuState,
+                  child: FlatButton.icon(
+                    label: Text(
+                      'Search',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
+                    ),
+                    icon: Icon(
+                      Icons.search,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                    onPressed: () {
+                      context.bloc<LanguageCubit>().toggleLanguage();
+                    },
+                  ),
+                ),
               ),
-            ),
-            icon: Icon(
-              Icons.search,
-              color: Theme.of(context).colorScheme.onPrimary,
-            ),
-            onPressed: () {},
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

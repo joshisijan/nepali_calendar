@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 ColorScheme kLightColorScheme = ThemeData.light().colorScheme.copyWith(
       primary: Colors.indigo[900],
       onPrimary: Colors.white,
+      secondary: Colors.lightBlue,
     );
 
 ThemeData kAppLightTheme = ThemeData.light().copyWith(

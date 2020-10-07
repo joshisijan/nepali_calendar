@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nepali_calendar/src/app_base.dart';
+import 'package:nepali_calendar/src/cubit/bottom_menu_cubit.dart';
+import 'package:nepali_calendar/src/cubit/language_cubit.dart';
 import 'package:nepali_calendar/src/cubit/starting_cubit.dart';
 import 'package:nepali_calendar/src/cubit/timer_cubit.dart';
 import 'package:nepali_calendar/src/styles/theme.dart';
@@ -24,6 +26,12 @@ class App extends StatelessWidget {
           ),
           BlocProvider(
             create: (_) => StartingCubit(),
+          ),
+          BlocProvider(
+            create: (_) => BottomMenuCubit(),
+          ),
+          BlocProvider(
+            create: (_) => LanguageCubit(),
           ),
         ],
         child: AppBase(),
