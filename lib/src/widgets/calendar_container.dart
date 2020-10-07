@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nepali_calendar/src/services/time_util.dart';
 
 // ignore: must_be_immutable
 class CalendarContainer extends StatelessWidget {
@@ -11,53 +10,21 @@ class CalendarContainer extends StatelessWidget {
   }) : super(key: key);
 
   int startingPoint;
-
+  List<dynamic> monthData;
   @override
   Widget build(BuildContext context) {
-    startingPoint =
-        CustomTimeUtil().dayToIndex(monthCalendar['monthData'][0]['day']);
+    startingPoint = monthCalendar['monthData'][0]['index'];
+    monthData = monthCalendar['monthData'];
     return Column(
       children: [
         AppBar(
           backgroundColor: Theme.of(context).primaryColor,
-          title: Text(CustomTimeUtil().indexToMonth(monthCalendar['month'])),
+          title: Text(monthCalendar['monthName']),
           centerTitle: true,
         ),
         Expanded(
           child: Container(
-            child: Column(
-              children: [
-                // Top Day Row
-                CalendarRow(
-                  child: Row(
-                    children: [
-                      DateBox(
-                        dayHeading: 'S',
-                      ),
-                      DateBox(
-                        dayHeading: 'M',
-                      ),
-                      DateBox(
-                        dayHeading: 'T',
-                      ),
-                      DateBox(
-                        dayHeading: 'W',
-                      ),
-                      DateBox(
-                        dayHeading: 'T',
-                      ),
-                      DateBox(
-                        dayHeading: 'F',
-                      ),
-                      DateBox(
-                        dayHeading: 'S',
-                        dayHoliday: true,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            child: Text('sija'),
           ),
         ),
       ],
@@ -77,10 +44,6 @@ class DateBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      constraints: BoxConstraints(
-        minWidth: MediaQuery.of(context).size.width / 7,
-        maxWidth: MediaQuery.of(context).size.width / 7,
-      ),
       decoration: BoxDecoration(
           border: Border.all(
         color: Theme.of(context).colorScheme.onPrimary,
@@ -93,23 +56,6 @@ class DateBox extends StatelessWidget {
                   : Theme.of(context).errorColor,
             ),
       ),
-    );
-  }
-}
-
-class CalendarRow extends StatelessWidget {
-  final Widget child;
-
-  const CalendarRow({
-    Key key,
-    @required this.child,
-  }) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Flexible(
-      flex: 1,
-      fit: FlexFit.tight,
-      child: child,
     );
   }
 }
