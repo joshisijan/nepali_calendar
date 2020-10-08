@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nepali_calendar/src/cubit/calendar_cubit.dart';
+import 'package:nepali_calendar/src/cubit/calendar_mode_cubit.dart';
 import 'package:nepali_calendar/src/cubit/starting_cubit.dart';
 import 'package:nepali_calendar/src/cubit/timer_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,8 +8,15 @@ import 'dart:async';
 import 'package:nepali_calendar/src/screens/full_screen_scaffold_loader.dart';
 import 'package:nepali_calendar/src/screens/home.dart';
 import 'package:nepali_calendar/src/screens/first_starting.dart';
+import 'package:nepali_calendar/src/screens/year_mode.dart';
 
 class AppBase extends StatefulWidget {
+  final int onYear;
+
+  const AppBase({
+    Key key,
+    this.onYear,
+  }) : super(key: key);
   @override
   _AppBaseState createState() => _AppBaseState();
 }
@@ -22,6 +30,9 @@ class _AppBaseState extends State<AppBase> {
     timeTimer = Timer.periodic(Duration(seconds: 1), (timer) {
       context.bloc<TimerCubit>().getNewDateTime();
     });
+    if (widget.onYear != null) {
+      context.bloc<CalendarCubit>().getCalendar(widget.onYear);
+    }
   }
 
   @override
@@ -41,9 +52,11 @@ class _AppBaseState extends State<AppBase> {
           // if loading for first time
           return FirstWidget();
         // if loaging not for first time
-        return BlocProvider(
-          create: (context) => CalendarCubit(),
-          child: HomeScreen(),
+        return BlocBuilder<CalendarModeCubit, int>(
+          builder: (context, calendarModeState) {
+            if (calendarModeState == 0) return HomeScreen();
+            return YearMode();
+          },
         );
       },
     );

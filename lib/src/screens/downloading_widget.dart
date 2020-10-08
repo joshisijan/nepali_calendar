@@ -18,7 +18,7 @@ class DownloadingFileWidget extends StatefulWidget {
 }
 
 class _DownloadingFileWidgetState extends State<DownloadingFileWidget> {
-  getResponse(int year) async {
+  getResponse(String year) async {
     try {
       var response = await http.get(
           'https://joshisijan.github.io/calendar_scrapper/data/years/$year.json');
@@ -32,10 +32,10 @@ class _DownloadingFileWidgetState extends State<DownloadingFileWidget> {
 
   @override
   Widget build(BuildContext context) {
-    int _year = widget.year ??
+    String _year = widget.year ??
         CurrentTimeModel(
           englishDateTime: DateTime.now(),
-        ).getNepaliDate(DateTime.now()).year;
+        ).getNepaliDate(DateTime.now()).year.toString();
     () async {
       var response = await getResponse(_year);
       if (response != null && response?.statusCode == 200) {
@@ -50,6 +50,10 @@ class _DownloadingFileWidgetState extends State<DownloadingFileWidget> {
           _preferences.setBool('firstOrNot', true);
           Navigator.of(context).pushReplacement(PageRouteBuilder(
             pageBuilder: (_, animation, __) {
+              if (widget.year != null)
+                return App(
+                  onYear: int.parse(widget.year),
+                );
               return App();
             },
             transitionDuration: Duration(milliseconds: 350),

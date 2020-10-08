@@ -3,17 +3,20 @@ import 'package:flutter/material.dart';
 class CustomCalendarError extends StatelessWidget {
   final String title;
   final Function onPressed;
+  final IconData icon;
   final bool loading;
 
   const CustomCalendarError({
     Key key,
     this.title,
     this.onPressed,
+    this.icon = Icons.refresh,
     this.loading = false,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
+      color: Colors.transparent,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -26,7 +29,7 @@ class CustomCalendarError extends StatelessWidget {
           !loading
               ? IconButton(
                   icon: Icon(
-                    Icons.refresh,
+                    icon,
                     color: Theme.of(context).colorScheme.onPrimary,
                     size: 40.0,
                   ),
@@ -39,12 +42,16 @@ class CustomCalendarError extends StatelessWidget {
                 )
               : SizedBox.shrink(),
           !loading
-              ? Align(
-                  child: Text(
-                    title ?? '',
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimary,
-                        ),
+              ? Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Align(
+                    child: Text(
+                      title ?? '',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyText1.copyWith(
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                    ),
                   ),
                 )
               : SizedBox.shrink(),

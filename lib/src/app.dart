@@ -3,12 +3,21 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nepali_calendar/src/app_base.dart';
 import 'package:nepali_calendar/src/cubit/bottom_menu_cubit.dart';
+import 'package:nepali_calendar/src/cubit/calendar_cubit.dart';
+import 'package:nepali_calendar/src/cubit/calendar_mode_cubit.dart';
+import 'package:nepali_calendar/src/cubit/downloaded_year_cubit.dart';
 import 'package:nepali_calendar/src/cubit/language_cubit.dart';
 import 'package:nepali_calendar/src/cubit/starting_cubit.dart';
 import 'package:nepali_calendar/src/cubit/timer_cubit.dart';
 import 'package:nepali_calendar/src/styles/theme.dart';
 
 class App extends StatelessWidget {
+  final int onYear;
+
+  const App({
+    Key key,
+    this.onYear,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -33,8 +42,19 @@ class App extends StatelessWidget {
           BlocProvider(
             create: (_) => LanguageCubit(),
           ),
+          BlocProvider(
+            create: (_) => CalendarModeCubit(),
+          ),
+          BlocProvider(
+            create: (_) => DownloadedYearCubit(),
+          ),
+          BlocProvider(
+            create: (_) => CalendarCubit(),
+          ),
         ],
-        child: AppBase(),
+        child: AppBase(
+          onYear: onYear,
+        ),
       ),
     );
   }

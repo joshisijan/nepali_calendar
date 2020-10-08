@@ -8,73 +8,77 @@ class CustomBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<BottomMenuCubit, bool>(
       builder: (context, bottomMenuState) {
-        return BottomAppBar(
-          elevation: bottomMenuState ? 0.0 : 5.0,
-          color: Theme.of(context).primaryColor,
-          shape: bottomMenuState ? null : CircularNotchedRectangle(),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              AnimatedCrossFade(
-                crossFadeState: bottomMenuState
-                    ? CrossFadeState.showSecond
-                    : CrossFadeState.showFirst,
-                duration: Duration(milliseconds: 350),
-                firstChild: FlatButton.icon(
-                  label: Text(
-                    'Menu',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
-                  ),
-                  icon: Icon(
-                    Icons.menu,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-                  onPressed: () {
-                    context.bloc<BottomMenuCubit>().toggleMenu();
-                  },
-                ),
-                secondChild: FlatButton.icon(
-                  label: Text(
-                    'Close',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
-                  ),
-                  icon: Icon(
-                    Icons.close,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-                  onPressed: () {
-                    context.bloc<BottomMenuCubit>().toggleMenu();
-                  },
-                ),
-              ),
-              AnimatedOpacity(
-                opacity: bottomMenuState ? 0.0 : 1.0,
-                duration: Duration(milliseconds: 350),
-                child: AbsorbPointer(
-                  absorbing: bottomMenuState,
-                  child: FlatButton.icon(
-                    label: Text(
-                      'Search',
-                      style: TextStyle(
+        return BlocBuilder<LanguageCubit, int>(
+          builder: (context, languageState) {
+            return BottomAppBar(
+              elevation: bottomMenuState ? 0.0 : 5.0,
+              color: Theme.of(context).primaryColor,
+              shape: bottomMenuState ? null : CircularNotchedRectangle(),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  AnimatedCrossFade(
+                    crossFadeState: bottomMenuState
+                        ? CrossFadeState.showSecond
+                        : CrossFadeState.showFirst,
+                    duration: Duration(milliseconds: 350),
+                    firstChild: FlatButton.icon(
+                      label: Text(
+                        languageState == 0 ? 'Menu' : 'मेनू',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                      ),
+                      icon: Icon(
+                        Icons.menu,
                         color: Theme.of(context).colorScheme.onPrimary,
                       ),
+                      onPressed: () {
+                        context.bloc<BottomMenuCubit>().toggleMenu();
+                      },
                     ),
-                    icon: Icon(
-                      Icons.search,
-                      color: Theme.of(context).colorScheme.onPrimary,
+                    secondChild: FlatButton.icon(
+                      label: Text(
+                        languageState == 0 ? 'Close' : 'बन्द गर्नुहोस्',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                      ),
+                      icon: Icon(
+                        Icons.close,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
+                      onPressed: () {
+                        context.bloc<BottomMenuCubit>().toggleMenu();
+                      },
                     ),
-                    onPressed: () {
-                      context.bloc<LanguageCubit>().toggleLanguage();
-                    },
                   ),
-                ),
+                  AnimatedOpacity(
+                    opacity: bottomMenuState ? 0.0 : 1.0,
+                    duration: Duration(milliseconds: 350),
+                    child: AbsorbPointer(
+                      absorbing: bottomMenuState,
+                      child: FlatButton.icon(
+                        label: Text(
+                          languageState == 0 ? 'Search' : 'खोजी गर्नुहोस्',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                        ),
+                        icon: Icon(
+                          Icons.search,
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                        onPressed: () {
+                          context.bloc<LanguageCubit>().toggleLanguage();
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            );
+          },
         );
       },
     );

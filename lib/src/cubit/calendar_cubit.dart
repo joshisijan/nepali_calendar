@@ -25,12 +25,12 @@ class CalendarCubit extends Cubit<CalendarState> {
         Map<String, dynamic> jsonData = jsonDecode(data);
         emit(CalendarLoaded(calendar: jsonData));
       } else {
-        emit(CalendarError(error: 'An error occurred. Try Again'));
+        emit(CalendarError(error: 'An error occurred. Try Again.'));
       }
     } on FileSystemException {
       emit(CalendarFileError(error: 'Calendar not Downloaded.'));
     } catch (e) {
-      emit(CalendarError(error: 'An error occurred. Try Again'));
+      emit(CalendarError(error: 'An error occurred. Try Again.'));
     }
   }
 }
