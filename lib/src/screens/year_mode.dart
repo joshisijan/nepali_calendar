@@ -113,13 +113,13 @@ class YearMode extends StatelessWidget {
                                               ),
                                               onPressed: () {
                                                 context
-                                                    .bloc<CalendarModeCubit>()
-                                                    .changeMode(0);
-                                                context
                                                     .bloc<CalendarCubit>()
                                                     .getCalendar(
                                                         downloadedYearState
                                                             .years[index]);
+                                                context
+                                                    .bloc<CalendarModeCubit>()
+                                                    .changeMode(0);
                                               },
                                             ),
                                             leading: IconButton(
