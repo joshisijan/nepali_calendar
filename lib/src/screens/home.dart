@@ -6,6 +6,7 @@ import 'package:nepali_calendar/src/cubit/language_cubit.dart';
 import 'package:nepali_calendar/src/cubit/timer_cubit.dart';
 import 'package:nepali_calendar/src/models/time_model.dart';
 import 'package:nepali_calendar/src/screens/downloading_widget.dart';
+import 'package:nepali_calendar/src/screens/events_screen.dart';
 import 'package:nepali_calendar/src/services/time_util.dart';
 import 'package:nepali_calendar/src/widgets/bottom_menu.dart';
 import 'package:nepali_calendar/src/widgets/bottom_navigation_bar.dart';
@@ -112,6 +113,7 @@ class HomeScreen extends StatelessWidget {
                           ],
                         );
                       } else if (calendarState is CalendarLoaded) {
+                        // upper code for scheduled notification
                         return Stack(
                           fit: StackFit.expand,
                           children: [
@@ -200,7 +202,27 @@ class HomeScreen extends StatelessWidget {
                     duration: Duration(milliseconds: 350),
                     firstChild: FloatingActionButton(
                       child: Icon(Icons.today),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(PageRouteBuilder(
+                          pageBuilder: (_, animation, __) {
+                            return EventsScreen();
+                          },
+                          transitionDuration: Duration(milliseconds: 350),
+                          transitionsBuilder: (_, animation, __, child) {
+                            animation = CurvedAnimation(
+                              curve: Curves.decelerate,
+                              parent: animation,
+                            );
+                            return SlideTransition(
+                              position: Tween(
+                                begin: Offset(0.0, 1.0),
+                                end: Offset(0.0, 0.0),
+                              ).animate(animation),
+                              child: child,
+                            );
+                          },
+                        ));
+                      },
                     ),
                     secondChild: SizedBox.shrink(),
                   );

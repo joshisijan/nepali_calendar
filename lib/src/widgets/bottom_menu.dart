@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nepali_calendar/src/cubit/bottom_menu_cubit.dart';
+import 'package:nepali_calendar/src/cubit/calendar_cubit.dart';
 import 'package:nepali_calendar/src/cubit/calendar_mode_cubit.dart';
 import 'package:nepali_calendar/src/cubit/language_cubit.dart';
+import 'package:nepali_calendar/src/models/time_model.dart';
 import 'package:nepali_calendar/src/reuseables/flat_icon_button.dart';
 
 class BottomMenu extends StatelessWidget {
@@ -80,23 +82,50 @@ class BottomMenu extends StatelessWidget {
               BlocBuilder<CalendarModeCubit, int>(
                 builder: (context, calendarModeState) {
                   if (calendarModeState == 0)
-                    return FlatIconButton(
-                      firstChild: Icon(
-                        Icons.date_range,
-                        color: Theme.of(context).colorScheme.onPrimary,
-                      ),
-                      secondChild: Text(
-                        languageState == 0
-                            ? 'Browse by year'
-                            : 'वर्ष बाट ब्राउज गर्नुहोस्',
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.onPrimary),
-                      ),
-                      containerUse: true,
-                      onPressed: () {
-                        context.bloc<CalendarModeCubit>().changeMode(1);
-                        context.bloc<BottomMenuCubit>().toggleMenu();
-                      },
+                    return Column(
+                      children: [
+                        FlatIconButton(
+                          firstChild: Icon(
+                            Icons.date_range,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                          secondChild: Text(
+                            languageState == 0
+                                ? 'Browse by year'
+                                : 'वर्ष बाट ब्राउज गर्नुहोस्',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.onPrimary),
+                          ),
+                          containerUse: true,
+                          onPressed: () {
+                            context.bloc<CalendarModeCubit>().changeMode(1);
+                            context.bloc<BottomMenuCubit>().toggleMenu();
+                          },
+                        ),
+                        FlatIconButton(
+                          firstChild: Icon(
+                            Icons.calendar_today,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                          secondChild: Text(
+                            languageState == 0
+                                ? 'View current year'
+                                : 'हालको वर्षमा जानुहोस्',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.onPrimary),
+                          ),
+                          containerUse: true,
+                          onPressed: () {
+                            context.bloc<CalendarModeCubit>().changeMode(0);
+                            context.bloc<CalendarCubit>().getCalendar(
+                                CurrentTimeModel(
+                                        englishDateTime: DateTime.now())
+                                    .nepaliDateTime
+                                    .year);
+                            context.bloc<BottomMenuCubit>().toggleMenu();
+                          },
+                        ),
+                      ],
                     );
                   return FlatIconButton(
                     firstChild: Icon(
@@ -113,23 +142,14 @@ class BottomMenu extends StatelessWidget {
                     containerUse: true,
                     onPressed: () {
                       context.bloc<CalendarModeCubit>().changeMode(0);
+                      context.bloc<CalendarCubit>().getCalendar(
+                          CurrentTimeModel(englishDateTime: DateTime.now())
+                              .nepaliDateTime
+                              .year);
                       context.bloc<BottomMenuCubit>().toggleMenu();
                     },
                   );
                 },
-              ),
-              FlatIconButton(
-                firstChild: Icon(
-                  Icons.settings,
-                  color: Theme.of(context).colorScheme.onPrimary,
-                ),
-                secondChild: Text(
-                  languageState == 0 ? 'Settings' : 'सेटिंग्स',
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.onPrimary),
-                ),
-                containerUse: true,
-                onPressed: () {},
               ),
               FlatIconButton(
                 firstChild: Icon(

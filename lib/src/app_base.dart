@@ -4,7 +4,6 @@ import 'package:nepali_calendar/src/cubit/calendar_mode_cubit.dart';
 import 'package:nepali_calendar/src/cubit/starting_cubit.dart';
 import 'package:nepali_calendar/src/cubit/timer_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nepali_calendar/src/models/time_model.dart';
 import 'dart:async';
 import 'package:nepali_calendar/src/screens/full_screen_scaffold_loader.dart';
 import 'package:nepali_calendar/src/screens/home.dart';
@@ -55,8 +54,7 @@ class _AppBaseState extends State<AppBase> {
         // if loaging not for first time
         return BlocBuilder<CalendarModeCubit, int>(
           builder: (context, calendarModeState) {
-            if (calendarModeState == 0){
-              context.bloc<CalendarCubit>().getCalendar(CurrentTimeModel(englishDateTime: DateTime.now()).nepaliDateTime.year);
+            if (calendarModeState == 0) {
               return HomeScreen();
             }
             return YearMode();

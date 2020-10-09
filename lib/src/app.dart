@@ -11,6 +11,8 @@ import 'package:nepali_calendar/src/cubit/starting_cubit.dart';
 import 'package:nepali_calendar/src/cubit/timer_cubit.dart';
 import 'package:nepali_calendar/src/styles/theme.dart';
 
+
+
 class App extends StatelessWidget {
   final int onYear;
 
@@ -18,6 +20,8 @@ class App extends StatelessWidget {
     Key key,
     this.onYear,
   }) : super(key: key);
+  Future selectNotification(String payload) async {}
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([

@@ -122,20 +122,30 @@ class YearMode extends StatelessWidget {
                                                     .changeMode(0);
                                               },
                                             ),
-                                            leading: IconButton(
-                                              icon: Icon(
-                                                Icons.close,
-                                                color: Theme.of(context)
-                                                    .errorColor,
-                                              ),
-                                              onPressed: () {
-                                                context
-                                                    .bloc<DownloadedYearCubit>()
-                                                    .removeYear(
-                                                        downloadedYearState
-                                                            .years[index]);
-                                              },
-                                            ),
+                                            leading: downloadedYearState
+                                                        .years[index] !=
+                                                    CurrentTimeModel(
+                                                            englishDateTime:
+                                                                DateTime.now())
+                                                        .nepaliDateTime
+                                                        .year
+                                                ? IconButton(
+                                                    icon: Icon(
+                                                      Icons.close,
+                                                      color: Theme.of(context)
+                                                          .errorColor,
+                                                    ),
+                                                    onPressed: () {
+                                                      context
+                                                          .bloc<
+                                                              DownloadedYearCubit>()
+                                                          .removeYear(
+                                                              downloadedYearState
+                                                                      .years[
+                                                                  index]);
+                                                    },
+                                                  )
+                                                : null,
                                             title: Text(
                                               languageState == 0
                                                   ? downloadedYearState

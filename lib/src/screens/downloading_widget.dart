@@ -1,8 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nepali_calendar/src/app.dart';
+import 'package:nepali_calendar/src/cubit/language_cubit.dart';
 import 'package:nepali_calendar/src/models/time_model.dart';
+import 'package:nepali_calendar/src/services/time_util.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -82,67 +85,72 @@ class _DownloadingFileWidgetState extends State<DownloadingFileWidget> {
         });
       }
     }.call();
-    return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      body: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            error == ''
-                ? Align(
-                    child: CircularProgressIndicator(
-                      backgroundColor: Theme.of(context).colorScheme.onPrimary,
-                    ),
-                  )
-                : SizedBox.shrink(),
-            error == ''
-                ? SizedBox(
-                    height: 20.0,
-                  )
-                : SizedBox.shrink(),
-            error == ''
-                ? Align(
-                    child: Text(
-                      'Downloading Asset (Year $_year B.S)',
-                      style: Theme.of(context).textTheme.bodyText1.copyWith(
-                            color: Theme.of(context).colorScheme.onPrimary,
-                          ),
-                    ),
-                  )
-                : SizedBox.shrink(),
-            error != ''
-                ? IconButton(
-                    icon: Icon(
-                      Icons.refresh,
+    return BlocBuilder(
+      cubit: LanguageCubit(),
+      builder: (context, languageState) {
+        return Scaffold(
+          backgroundColor: Theme.of(context).primaryColor,
+          body: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                error == ''
+                    ? Align(
+                  child: CircularProgressIndicator(
+                    backgroundColor: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                )
+                    : SizedBox.shrink(),
+                error == ''
+                    ? SizedBox(
+                  height: 20.0,
+                )
+                    : SizedBox.shrink(),
+                error == ''
+                    ? Align(
+                  child: Text(
+                    languageState == 0 ? 'Downloading calendar of Year $_year B.S' : '${CustomTimeUtil().englishToNepaliDate(int.parse(_year))} को पात्रो डाउनलोड गर्दै',
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
                       color: Theme.of(context).colorScheme.onPrimary,
-                      size: 40.0,
                     ),
-                    onPressed: () {
-                      setState(() {
-                        error = '';
-                      });
-                    },
-                  )
-                : SizedBox.shrink(),
-            error != ''
-                ? SizedBox(
-                    height: 20.0,
-                  )
-                : SizedBox.shrink(),
-            error != ''
-                ? Align(
-                    child: Text(
-                      error,
-                      style: Theme.of(context).textTheme.bodyText1.copyWith(
-                            color: Theme.of(context).colorScheme.onPrimary,
-                          ),
+                  ),
+                )
+                    : SizedBox.shrink(),
+                error != ''
+                    ? IconButton(
+                  icon: Icon(
+                    Icons.refresh,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                    size: 40.0,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      error = '';
+                    });
+                  },
+                )
+                    : SizedBox.shrink(),
+                error != ''
+                    ? SizedBox(
+                  height: 20.0,
+                )
+                    : SizedBox.shrink(),
+                error != ''
+                    ? Align(
+                  child: Text(
+                    error,
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
+                      color: Theme.of(context).colorScheme.onPrimary,
                     ),
-                  )
-                : SizedBox.shrink(),
-          ],
-        ),
-      ),
+                  ),
+                )
+                    : SizedBox.shrink(),
+              ],
+            ),
+          ),
+        );
+    },
     );
   }
 }

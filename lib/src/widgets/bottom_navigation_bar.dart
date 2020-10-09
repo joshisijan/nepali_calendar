@@ -70,7 +70,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                           color: Theme.of(context).colorScheme.onPrimary,
                         ),
                         onPressed: () {
-                          context.bloc<LanguageCubit>().toggleLanguage();
+
                         },
                       ),
                     ),
