@@ -79,8 +79,6 @@ class HomeScreen extends StatelessWidget {
                                 onPressed: () {
                                   Navigator.of(context)
                                       .pushReplacement(PageRouteBuilder(
-                                    settings: RouteSettings(
-                                        name: 'DownloadingFileWidget'),
                                     pageBuilder: (_, animation, __) {
                                       return DownloadingFileWidget();
                                     },
@@ -219,7 +217,6 @@ class HomeScreen extends StatelessWidget {
                                     .nepaliDateTime
                                     .year);
                             Navigator.of(context).push(PageRouteBuilder(
-                              settings: RouteSettings(name: 'EventsScreen'),
                               pageBuilder: (_, animation, __) {
                                 return EventsScreen(
                                   language: languageState,

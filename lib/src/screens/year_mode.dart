@@ -218,9 +218,6 @@ class YearMode extends StatelessWidget {
                                                   Navigator.of(context)
                                                       .pushReplacement(
                                                           PageRouteBuilder(
-                                                    settings: RouteSettings(
-                                                        name:
-                                                            'DownloadingFileWidget'),
                                                     pageBuilder:
                                                         (_, animation, __) {
                                                       return DownloadingFileWidget(

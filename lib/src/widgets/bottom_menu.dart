@@ -203,7 +203,6 @@ class BottomMenu extends StatelessWidget {
                 onPressed: () {
                   context.bloc<BottomMenuCubit>().toggleMenu();
                   Navigator.of(context).push(PageRouteBuilder(
-                    settings: RouteSettings(name: 'AboutScreen'),
                     pageBuilder: (_, animation, __) => AboutScreen(
                       language: languageState,
                     ),

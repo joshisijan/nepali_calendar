@@ -15,6 +15,7 @@ ThemeData kAppLightTheme = ThemeData.light().copyWith(
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     backgroundColor: Colors.indigo[900],
   ),
+  buttonColor: Colors.blue[800],
 );
 
 ThemeData kAppDarkTheme = ThemeData.dark().copyWith(

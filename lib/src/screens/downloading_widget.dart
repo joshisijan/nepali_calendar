@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nepali_calendar/src/app.dart';
+import 'package:nepali_calendar/src/cubit/calendar_mode_cubit.dart';
 import 'package:nepali_calendar/src/cubit/language_cubit.dart';
 import 'package:nepali_calendar/src/models/time_model.dart';
 import 'package:nepali_calendar/src/services/time_util.dart';
@@ -11,16 +12,33 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 
-class DownloadingFileWidget extends StatefulWidget {
+class DownloadingFileWidget extends StatelessWidget {
   final String year;
 
   const DownloadingFileWidget({Key key, this.year}) : super(key: key);
-
   @override
-  _DownloadingFileWidgetState createState() => _DownloadingFileWidgetState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => CalendarModeCubit(),
+      child: DownloadingFileWidgetInner(
+        year: year,
+      ),
+    );
+  }
 }
 
-class _DownloadingFileWidgetState extends State<DownloadingFileWidget> {
+class DownloadingFileWidgetInner extends StatefulWidget {
+  final String year;
+
+  const DownloadingFileWidgetInner({Key key, this.year}) : super(key: key);
+
+  @override
+  _DownloadingFileWidgetInnerState createState() =>
+      _DownloadingFileWidgetInnerState();
+}
+
+class _DownloadingFileWidgetInnerState
+    extends State<DownloadingFileWidgetInner> {
   getResponse(String year) async {
     try {
       var response = await http.get(
@@ -51,8 +69,8 @@ class _DownloadingFileWidgetState extends State<DownloadingFileWidget> {
           SharedPreferences _preferences =
               await SharedPreferences.getInstance();
           _preferences.setBool('firstOrNot', true);
+          _preferences.setInt('calendarMode', 0);
           Navigator.of(context).pushReplacement(PageRouteBuilder(
-            settings: RouteSettings(name: 'App'),
             pageBuilder: (_, animation, __) {
               if (widget.year != null)
                 return App(

@@ -9,7 +9,9 @@ import 'dart:async';
 import 'package:nepali_calendar/src/screens/full_screen_scaffold_loader.dart';
 import 'package:nepali_calendar/src/screens/home.dart';
 import 'package:nepali_calendar/src/screens/first_starting.dart';
+import 'package:nepali_calendar/src/screens/update_mode.dart';
 import 'package:nepali_calendar/src/screens/year_mode.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppBase extends StatefulWidget {
   final int onYear;
@@ -37,17 +39,25 @@ class _AppBaseState extends State<AppBase> {
       context.bloc<CalendarCubit>().getCalendar(widget.onYear);
     }
     firebaseMessaging.configure(
+      // ignore: missing_return
       onMessage: (message) {
-        print(message.toString());
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text('jajajaja'),
-              content: Text('djfkdsfksd'),
-            );
-          },
+        if (message['data']['forUpdate'] != null) {
+          context.bloc<CalendarModeCubit>().changeMode(2);
+        }
+      },
+      // ignore: missing_return
+      onLaunch: (message) async {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (_) => UpdateMode(),
+          ),
         );
+      },
+      // ignore: missing_return
+      onResume: (message) {
+        if (message['data']['forUpdate'] != null) {
+          context.bloc<CalendarModeCubit>().changeMode(2);
+        }
       },
     );
   }
@@ -73,8 +83,10 @@ class _AppBaseState extends State<AppBase> {
           builder: (context, calendarModeState) {
             if (calendarModeState == 0) {
               return HomeScreen();
+            } else if (calendarModeState == 1) {
+              return YearMode();
             }
-            return YearMode();
+            return UpdateMode();
           },
         );
       },

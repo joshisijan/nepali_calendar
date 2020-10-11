@@ -133,7 +133,6 @@ class _FirstWidgetState extends State<FirstWidget> {
                         curve: Curves.decelerate);
                   } else {
                     Navigator.of(context).pushReplacement(PageRouteBuilder(
-                      settings: RouteSettings(name: 'DownloadFileWidget'),
                       pageBuilder: (_, animation, __) {
                         return DownloadingFileWidget();
                       },
