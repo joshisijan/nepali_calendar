@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:nepali_calendar/src/cubit/calendar_cubit.dart';
 import 'package:nepali_calendar/src/cubit/calendar_mode_cubit.dart';
@@ -24,6 +25,8 @@ class AppBase extends StatefulWidget {
 class _AppBaseState extends State<AppBase> {
   Timer timeTimer;
 
+  FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+
   @override
   void initState() {
     super.initState();
@@ -33,6 +36,20 @@ class _AppBaseState extends State<AppBase> {
     if (widget.onYear != null) {
       context.bloc<CalendarCubit>().getCalendar(widget.onYear);
     }
+    firebaseMessaging.configure(
+      onMessage: (message) {
+        print(message.toString());
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('jajajaja'),
+              content: Text('djfkdsfksd'),
+            );
+          },
+        );
+      },
+    );
   }
 
   @override

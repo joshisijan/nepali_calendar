@@ -218,6 +218,9 @@ class YearMode extends StatelessWidget {
                                                   Navigator.of(context)
                                                       .pushReplacement(
                                                           PageRouteBuilder(
+                                                    settings: RouteSettings(
+                                                        name:
+                                                            'DownloadingFileWidget'),
                                                     pageBuilder:
                                                         (_, animation, __) {
                                                       return DownloadingFileWidget(
@@ -301,7 +304,7 @@ class YearMode extends StatelessWidget {
                       AnimatedPositioned(
                         curve: Curves.decelerate,
                         duration: Duration(milliseconds: 350),
-                        bottom: bottomMenuState ? 0.0 : -300.0,
+                        bottom: bottomMenuState ? 0.0 : -350.0,
                         left: 0.0,
                         right: 0.0,
                         child: BottomMenu(),

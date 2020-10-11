@@ -52,6 +52,7 @@ class _DownloadingFileWidgetState extends State<DownloadingFileWidget> {
               await SharedPreferences.getInstance();
           _preferences.setBool('firstOrNot', true);
           Navigator.of(context).pushReplacement(PageRouteBuilder(
+            settings: RouteSettings(name: 'App'),
             pageBuilder: (_, animation, __) {
               if (widget.year != null)
                 return App(
@@ -97,60 +98,63 @@ class _DownloadingFileWidgetState extends State<DownloadingFileWidget> {
               children: [
                 error == ''
                     ? Align(
-                  child: CircularProgressIndicator(
-                    backgroundColor: Theme.of(context).colorScheme.onPrimary,
-                  ),
-                )
+                        child: CircularProgressIndicator(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.onPrimary,
+                        ),
+                      )
                     : SizedBox.shrink(),
                 error == ''
                     ? SizedBox(
-                  height: 20.0,
-                )
+                        height: 20.0,
+                      )
                     : SizedBox.shrink(),
                 error == ''
                     ? Align(
-                  child: Text(
-                    languageState == 0 ? 'Downloading calendar of Year $_year B.S' : '${CustomTimeUtil().englishToNepaliDate(int.parse(_year))} को पात्रो डाउनलोड गर्दै',
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
-                  ),
-                )
+                        child: Text(
+                          languageState == 0
+                              ? 'Downloading calendar of Year $_year B.S'
+                              : '${CustomTimeUtil().englishToNepaliDate(int.parse(_year))} को पात्रो डाउनलोड गर्दै',
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
+                        ),
+                      )
                     : SizedBox.shrink(),
                 error != ''
                     ? IconButton(
-                  icon: Icon(
-                    Icons.refresh,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                    size: 40.0,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      error = '';
-                    });
-                  },
-                )
+                        icon: Icon(
+                          Icons.refresh,
+                          color: Theme.of(context).colorScheme.onPrimary,
+                          size: 40.0,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            error = '';
+                          });
+                        },
+                      )
                     : SizedBox.shrink(),
                 error != ''
                     ? SizedBox(
-                  height: 20.0,
-                )
+                        height: 20.0,
+                      )
                     : SizedBox.shrink(),
                 error != ''
                     ? Align(
-                  child: Text(
-                    error,
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
-                  ),
-                )
+                        child: Text(
+                          error,
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
+                        ),
+                      )
                     : SizedBox.shrink(),
               ],
             ),
           ),
         );
-    },
+      },
     );
   }
 }

@@ -60,18 +60,16 @@ class CustomBottomNavigationBar extends StatelessWidget {
                       absorbing: bottomMenuState,
                       child: FlatButton.icon(
                         label: Text(
-                          languageState == 0 ? 'Search' : 'खोजी गर्नुहोस्',
+                          languageState == 0 ? 'Tools' : 'उपकरणहरू',
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.onPrimary,
                           ),
                         ),
                         icon: Icon(
-                          Icons.search,
+                          Icons.construction,
                           color: Theme.of(context).colorScheme.onPrimary,
                         ),
-                        onPressed: () {
-
-                        },
+                        onPressed: () {},
                       ),
                     ),
                   ),

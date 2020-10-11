@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "987304261324",
+    "firebase_url": "https://nepali-calendar-737b1.firebaseio.com",
+    "project_id": "nepali-calendar-737b1",
+    "storage_bucket": "nepali-calendar-737b1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:987304261324:android:4be67c09e18b585fc7f469",
+        "android_client_info": {
+          "package_name": "np.com.joshisijan.nepali_calendar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "987304261324-belem90cbsrbbl1tnffd4stod4v70b9k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqKZnu13V2OevT-yXVztnirn1u1VeQD0k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "987304261324-belem90cbsrbbl1tnffd4stod4v70b9k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

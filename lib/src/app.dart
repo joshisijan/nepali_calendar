@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,10 +10,9 @@ import 'package:nepali_calendar/src/cubit/calendar_mode_cubit.dart';
 import 'package:nepali_calendar/src/cubit/downloaded_year_cubit.dart';
 import 'package:nepali_calendar/src/cubit/language_cubit.dart';
 import 'package:nepali_calendar/src/cubit/starting_cubit.dart';
+import 'package:nepali_calendar/src/cubit/theme_cubit.dart';
 import 'package:nepali_calendar/src/cubit/timer_cubit.dart';
 import 'package:nepali_calendar/src/styles/theme.dart';
-
-
 
 class App extends StatelessWidget {
   final int onYear;
@@ -28,37 +29,49 @@ class App extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return MaterialApp(
-      title: 'Nepali Calendar',
-      debugShowCheckedModeBanner: false,
-      theme: kAppLightTheme,
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (_) => TimerCubit(),
-          ),
-          BlocProvider(
-            create: (_) => StartingCubit(),
-          ),
-          BlocProvider(
-            create: (_) => BottomMenuCubit(),
-          ),
-          BlocProvider(
-            create: (_) => LanguageCubit(),
-          ),
-          BlocProvider(
-            create: (_) => CalendarModeCubit(),
-          ),
-          BlocProvider(
-            create: (_) => DownloadedYearCubit(),
-          ),
-          BlocProvider(
-            create: (_) => CalendarCubit(),
-          ),
-        ],
-        child: AppBase(
-          onYear: onYear,
-        ),
+    return BlocProvider(
+      create: (_) => ThemeCubit(),
+      child: BlocBuilder<ThemeCubit, int>(
+        builder: (context, themeState) {
+          return MaterialApp(
+            title: 'Nepali Calendar',
+            debugShowCheckedModeBanner: false,
+            theme: themeState == 0 ? kAppLightTheme : kAppDarkTheme,
+            navigatorObservers: [
+              FirebaseAnalyticsObserver(
+                analytics: FirebaseAnalytics(),
+              ),
+            ],
+            home: MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (_) => TimerCubit(),
+                ),
+                BlocProvider(
+                  create: (_) => StartingCubit(),
+                ),
+                BlocProvider(
+                  create: (_) => BottomMenuCubit(),
+                ),
+                BlocProvider(
+                  create: (_) => LanguageCubit(),
+                ),
+                BlocProvider(
+                  create: (_) => CalendarModeCubit(),
+                ),
+                BlocProvider(
+                  create: (_) => DownloadedYearCubit(),
+                ),
+                BlocProvider(
+                  create: (_) => CalendarCubit(),
+                ),
+              ],
+              child: AppBase(
+                onYear: onYear,
+              ),
+            ),
+          );
+        },
       ),
     );
   }

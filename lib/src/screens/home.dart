@@ -52,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                             AnimatedPositioned(
                               curve: Curves.decelerate,
                               duration: Duration(milliseconds: 350),
-                              bottom: bottomMenuState ? 0.0 : -300.0,
+                              bottom: bottomMenuState ? 0.0 : -350.0,
                               left: 0.0,
                               right: 0.0,
                               child: BottomMenu(),
@@ -79,6 +79,8 @@ class HomeScreen extends StatelessWidget {
                                 onPressed: () {
                                   Navigator.of(context)
                                       .pushReplacement(PageRouteBuilder(
+                                    settings: RouteSettings(
+                                        name: 'DownloadingFileWidget'),
                                     pageBuilder: (_, animation, __) {
                                       return DownloadingFileWidget();
                                     },
@@ -105,7 +107,7 @@ class HomeScreen extends StatelessWidget {
                             AnimatedPositioned(
                               curve: Curves.decelerate,
                               duration: Duration(milliseconds: 350),
-                              bottom: bottomMenuState ? 0.0 : -300.0,
+                              bottom: bottomMenuState ? 0.0 : -350.0,
                               left: 0.0,
                               right: 0.0,
                               child: BottomMenu(),
@@ -153,7 +155,7 @@ class HomeScreen extends StatelessWidget {
                             AnimatedPositioned(
                               curve: Curves.decelerate,
                               duration: Duration(milliseconds: 350),
-                              bottom: bottomMenuState ? 0.0 : -300.0,
+                              bottom: bottomMenuState ? 0.0 : -350.0,
                               left: 0.0,
                               right: 0.0,
                               child: BottomMenu(),
@@ -179,7 +181,7 @@ class HomeScreen extends StatelessWidget {
                           AnimatedPositioned(
                             curve: Curves.decelerate,
                             duration: Duration(milliseconds: 350),
-                            bottom: bottomMenuState ? 0.0 : -300.0,
+                            bottom: bottomMenuState ? 0.0 : -350.0,
                             left: 0.0,
                             right: 0.0,
                             child: BottomMenu(),
@@ -200,28 +202,46 @@ class HomeScreen extends StatelessWidget {
                         ? CrossFadeState.showFirst
                         : CrossFadeState.showSecond,
                     duration: Duration(milliseconds: 350),
-                    firstChild: FloatingActionButton(
-                      child: Icon(Icons.today),
-                      onPressed: () {
-                        Navigator.of(context).push(PageRouteBuilder(
-                          pageBuilder: (_, animation, __) {
-                            return EventsScreen();
+                    firstChild: BlocBuilder<CalendarCubit, CalendarState>(
+                      builder: (context, calendarState) {
+                        if (calendarState is! CalendarLoaded)
+                          return SizedBox.shrink();
+                        return FloatingActionButton(
+                          elevation: 0.0,
+                          child: Icon(
+                            Icons.today,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                          onPressed: () {
+                            context.bloc<CalendarCubit>().getCalendar(
+                                CurrentTimeModel(
+                                        englishDateTime: DateTime.now())
+                                    .nepaliDateTime
+                                    .year);
+                            Navigator.of(context).push(PageRouteBuilder(
+                              settings: RouteSettings(name: 'EventsScreen'),
+                              pageBuilder: (_, animation, __) {
+                                return EventsScreen(
+                                  language: languageState,
+                                );
+                              },
+                              transitionDuration: Duration(milliseconds: 350),
+                              transitionsBuilder: (_, animation, __, child) {
+                                animation = CurvedAnimation(
+                                  curve: Curves.decelerate,
+                                  parent: animation,
+                                );
+                                return SlideTransition(
+                                  position: Tween(
+                                    begin: Offset(0.0, 1.0),
+                                    end: Offset(0.0, 0.0),
+                                  ).animate(animation),
+                                  child: child,
+                                );
+                              },
+                            ));
                           },
-                          transitionDuration: Duration(milliseconds: 350),
-                          transitionsBuilder: (_, animation, __, child) {
-                            animation = CurvedAnimation(
-                              curve: Curves.decelerate,
-                              parent: animation,
-                            );
-                            return SlideTransition(
-                              position: Tween(
-                                begin: Offset(0.0, 1.0),
-                                end: Offset(0.0, 0.0),
-                              ).animate(animation),
-                              child: child,
-                            );
-                          },
-                        ));
+                        );
                       },
                     ),
                     secondChild: SizedBox.shrink(),

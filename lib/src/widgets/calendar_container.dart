@@ -88,6 +88,7 @@ class CalendarMonth extends StatelessWidget {
           return Column(
             children: [
               AppBar(
+                elevation: 0.0,
                 title: Column(
                   children: [
                     languageState == 0
@@ -95,6 +96,7 @@ class CalendarMonth extends StatelessWidget {
                             monthData['monthName'] + ' | ' + year.toString(),
                             style: TextStyle(
                               fontSize: 16.5,
+                              color: Theme.of(context).colorScheme.onPrimary,
                             ),
                           )
                         : Text(
@@ -103,6 +105,7 @@ class CalendarMonth extends StatelessWidget {
                                 CustomTimeUtil().englishToNepaliDate(year),
                             style: TextStyle(
                               fontSize: 16.5,
+                              color: Theme.of(context).colorScheme.onPrimary,
                             ),
                           ),
                     SizedBox(
@@ -215,7 +218,7 @@ class CalendarMonth extends StatelessWidget {
                                 .overline
                                 .copyWith(
                                     color:
-                                        Theme.of(context).colorScheme.secondary,
+                                        Theme.of(context).colorScheme.onPrimary,
                                     fontSize: languageState == 0
                                         ? Theme.of(context)
                                                 .textTheme

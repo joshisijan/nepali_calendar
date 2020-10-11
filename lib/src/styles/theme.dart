@@ -16,3 +16,13 @@ ThemeData kAppLightTheme = ThemeData.light().copyWith(
     backgroundColor: Colors.indigo[900],
   ),
 );
+
+ThemeData kAppDarkTheme = ThemeData.dark().copyWith(
+  colorScheme: ThemeData.dark().colorScheme.copyWith(
+        secondary: Colors.blueGrey,
+      ),
+  accentColor: ThemeData.dark().primaryColorLight,
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: ThemeData.dark().primaryColor,
+  ),
+);

@@ -30,7 +30,9 @@ class DateBox extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 3.0),
           color: isActive
-              ? Theme.of(context).colorScheme.secondary.withAlpha(180)
+              ? isHoliday
+                  ? Theme.of(context).errorColor.withAlpha(150)
+                  : Theme.of(context).colorScheme.secondary.withAlpha(180)
               : Colors.transparent,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -40,7 +42,9 @@ class DateBox extends StatelessWidget {
                 centerDate ?? '',
                 style: TextStyle(
                   color: isHoliday
-                      ? Theme.of(context).errorColor
+                      ? isActive
+                          ? Theme.of(context).colorScheme.onPrimary
+                          : Theme.of(context).errorColor
                       : Theme.of(context).colorScheme.onPrimary,
                 ),
               ),
@@ -50,7 +54,9 @@ class DateBox extends StatelessWidget {
                   tithi ?? '',
                   style: Theme.of(context).textTheme.overline.copyWith(
                         color: isHoliday
-                            ? Theme.of(context).errorColor
+                            ? isActive
+                                ? Theme.of(context).colorScheme.onPrimary
+                                : Theme.of(context).errorColor
                             : Theme.of(context).colorScheme.onPrimary,
                         letterSpacing: 0.0,
                         fontSize: language == 0

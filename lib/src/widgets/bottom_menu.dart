@@ -4,15 +4,18 @@ import 'package:nepali_calendar/src/cubit/bottom_menu_cubit.dart';
 import 'package:nepali_calendar/src/cubit/calendar_cubit.dart';
 import 'package:nepali_calendar/src/cubit/calendar_mode_cubit.dart';
 import 'package:nepali_calendar/src/cubit/language_cubit.dart';
+import 'package:nepali_calendar/src/cubit/theme_cubit.dart';
 import 'package:nepali_calendar/src/models/time_model.dart';
+import 'package:nepali_calendar/src/reuseables/custom_filter_chip.dart';
 import 'package:nepali_calendar/src/reuseables/flat_icon_button.dart';
+import 'package:nepali_calendar/src/screens/about.dart';
 
 class BottomMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Theme.of(context).primaryColor,
-      height: 300.0,
+      height: 350.0,
       child: BlocBuilder<LanguageCubit, int>(
         builder: (context, languageState) {
           return ListView(
@@ -84,6 +87,41 @@ class BottomMenu extends StatelessWidget {
                   if (calendarModeState == 0)
                     return Column(
                       children: [
+                        FlatIconButton(
+                          containerUse: true,
+                          onPressed: null,
+                          firstChild: Icon(
+                            Icons.theater_comedy,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                          secondChild: Text(
+                            languageState == 0 ? 'Theme' : 'थीम',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.onPrimary),
+                          ),
+                        ),
+                        BlocBuilder<ThemeCubit, int>(
+                          builder: (context, themeState) {
+                            return Wrap(
+                              children: [
+                                CustomFilterChip(
+                                  label: languageState == 0 ? 'Light' : 'लाईट',
+                                  selected: themeState == 0 ? true : false,
+                                  onSelected: (value) {
+                                    context.bloc<ThemeCubit>().setTheme(0);
+                                  },
+                                ),
+                                CustomFilterChip(
+                                  label: languageState == 0 ? 'Dark' : 'डार्क',
+                                  selected: themeState == 1 ? true : false,
+                                  onSelected: (value) {
+                                    context.bloc<ThemeCubit>().setTheme(1);
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        ),
                         FlatIconButton(
                           firstChild: Icon(
                             Icons.date_range,
@@ -162,7 +200,29 @@ class BottomMenu extends StatelessWidget {
                       TextStyle(color: Theme.of(context).colorScheme.onPrimary),
                 ),
                 containerUse: true,
-                onPressed: () {},
+                onPressed: () {
+                  context.bloc<BottomMenuCubit>().toggleMenu();
+                  Navigator.of(context).push(PageRouteBuilder(
+                    settings: RouteSettings(name: 'AboutScreen'),
+                    pageBuilder: (_, animation, __) => AboutScreen(
+                      language: languageState,
+                    ),
+                    transitionDuration: Duration(milliseconds: 350),
+                    transitionsBuilder: (_, animation, __, child) {
+                      animation = CurvedAnimation(
+                        curve: Curves.decelerate,
+                        parent: animation,
+                      );
+                      return SlideTransition(
+                        position: Tween(
+                          begin: Offset(-1.0, 0.0),
+                          end: Offset(0.0, 0.0),
+                        ).animate(animation),
+                        child: child,
+                      );
+                    },
+                  ));
+                },
               ),
             ],
           );
