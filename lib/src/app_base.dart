@@ -11,6 +11,7 @@ import 'package:nepali_calendar/src/screens/home.dart';
 import 'package:nepali_calendar/src/screens/first_starting.dart';
 import 'package:nepali_calendar/src/screens/update_mode.dart';
 import 'package:nepali_calendar/src/screens/year_mode.dart';
+import 'package:nepali_calendar/src/widgets/on_launch_fixer.dart';
 
 class AppBase extends StatefulWidget {
   final int onYear;
@@ -48,7 +49,7 @@ class _AppBaseState extends State<AppBase> {
       onLaunch: (message) async {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (_) => UpdateMode(),
+            builder: (_) => OnLaunchFixer(),
           ),
         );
       },

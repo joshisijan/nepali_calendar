@@ -113,7 +113,7 @@ class EventsScreen extends StatelessWidget {
               ? FlatButton.icon(
                   color: Theme.of(context).primaryColorLight,
                   label: Text(
-                    'No event today',
+                    'Nothing today',
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.onPrimary),
                   ),

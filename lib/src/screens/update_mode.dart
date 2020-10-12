@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nepali_calendar/src/cubit/language_cubit.dart';
 import 'package:nepali_calendar/src/models/time_model.dart';
+import 'package:nepali_calendar/src/screens/downloading_widget.dart';
 import 'package:nepali_calendar/src/services/time_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'downloading_widget.dart';
 
 // ignore: must_be_immutable
 class UpdateMode extends StatelessWidget {
