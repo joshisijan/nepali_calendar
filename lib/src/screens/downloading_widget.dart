@@ -104,72 +104,122 @@ class _DownloadingFileWidgetInnerState
         });
       }
     }.call();
-    return BlocBuilder(
-      cubit: LanguageCubit(),
-      builder: (context, languageState) {
-        return Scaffold(
-          backgroundColor: Theme.of(context).primaryColor,
-          body: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                error == ''
-                    ? Align(
-                        child: CircularProgressIndicator(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.onPrimary,
-                        ),
-                      )
-                    : SizedBox.shrink(),
-                error == ''
-                    ? SizedBox(
-                        height: 20.0,
-                      )
-                    : SizedBox.shrink(),
-                error == ''
-                    ? Align(
-                        child: Text(
-                          languageState == 0
-                              ? 'Downloading calendar of Year $_year B.S'
-                              : '${CustomTimeUtil().englishToNepaliDate(int.parse(_year))} को पात्रो डाउनलोड गर्दै',
-                          style: Theme.of(context).textTheme.bodyText1.copyWith(
-                                color: Theme.of(context).colorScheme.onPrimary,
-                              ),
-                        ),
-                      )
-                    : SizedBox.shrink(),
-                error != ''
-                    ? IconButton(
-                        icon: Icon(
-                          Icons.refresh,
-                          color: Theme.of(context).colorScheme.onPrimary,
-                          size: 40.0,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            error = '';
-                          });
-                        },
-                      )
-                    : SizedBox.shrink(),
-                error != ''
-                    ? SizedBox(
-                        height: 20.0,
-                      )
-                    : SizedBox.shrink(),
-                error != ''
-                    ? Align(
-                        child: Text(
-                          error,
-                          style: Theme.of(context).textTheme.bodyText1.copyWith(
-                                color: Theme.of(context).colorScheme.onPrimary,
-                              ),
-                        ),
-                      )
-                    : SizedBox.shrink(),
-              ],
+    return WillPopScope(
+      child: BlocBuilder(
+        cubit: LanguageCubit(),
+        builder: (context, languageState) {
+          return Scaffold(
+            backgroundColor: Theme.of(context).primaryColor,
+            body: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  error == ''
+                      ? Align(
+                          child: CircularProgressIndicator(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.onPrimary,
+                          ),
+                        )
+                      : SizedBox.shrink(),
+                  error == ''
+                      ? SizedBox(
+                          height: 20.0,
+                        )
+                      : SizedBox.shrink(),
+                  error == ''
+                      ? Align(
+                          child: Text(
+                            languageState == 0
+                                ? 'Downloading calendar of Year $_year B.S'
+                                : '${CustomTimeUtil().englishToNepaliDate(int.parse(_year))} को पात्रो डाउनलोड गर्दै',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                ),
+                          ),
+                        )
+                      : SizedBox.shrink(),
+                  error != ''
+                      ? IconButton(
+                          icon: Icon(
+                            Icons.refresh,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                            size: 40.0,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              error = '';
+                            });
+                          },
+                        )
+                      : SizedBox.shrink(),
+                  error != ''
+                      ? SizedBox(
+                          height: 20.0,
+                        )
+                      : SizedBox.shrink(),
+                  error != ''
+                      ? Align(
+                          child: Text(
+                            error,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                ),
+                          ),
+                        )
+                      : SizedBox.shrink(),
+                ],
+              ),
             ),
+          );
+        },
+      ),
+      onWillPop: () {
+        return showDialog(
+          context: context,
+          child: AlertDialog(
+            backgroundColor: Theme.of(context).primaryColor,
+            title: Text(
+              'Cancle download',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
+            ),
+            content: Text(
+              'Do you want to cancle downloading the calendar?',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
+            ),
+            actions: [
+              IconButton(
+                icon: Icon(
+                  Icons.check,
+                  color: Colors.green,
+                ),
+                onPressed: () {
+                  Navigator.pop(context, true);
+                },
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.close,
+                  color: Theme.of(context).errorColor,
+                ),
+                onPressed: () {
+                  Navigator.pop(context, false);
+                },
+              ),
+            ],
           ),
         );
       },

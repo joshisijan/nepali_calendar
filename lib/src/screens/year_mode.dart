@@ -216,8 +216,7 @@ class YearMode extends StatelessWidget {
                                                           DownloadedYearCubit>()
                                                       .getYears();
                                                   Navigator.of(context)
-                                                      .pushReplacement(
-                                                          PageRouteBuilder(
+                                                      .push(PageRouteBuilder(
                                                     pageBuilder:
                                                         (_, animation, __) {
                                                       return DownloadingFileWidget(

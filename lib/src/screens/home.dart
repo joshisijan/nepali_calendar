@@ -77,8 +77,7 @@ class HomeScreen extends StatelessWidget {
                                     : 'वर्ष ${CustomTimeUtil().englishToNepaliDate(timeState.nepaliDateTime.year)} को लागि क्यालेन्डर डाउनलोड गरिएको छैन। माथिको बटन क्लिक गरेर डाउनलोड गर्नुहोस्',
                                 icon: Icons.download_sharp,
                                 onPressed: () {
-                                  Navigator.of(context)
-                                      .pushReplacement(PageRouteBuilder(
+                                  Navigator.of(context).push(PageRouteBuilder(
                                     pageBuilder: (_, animation, __) {
                                       return DownloadingFileWidget();
                                     },

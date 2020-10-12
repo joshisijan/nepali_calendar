@@ -54,7 +54,7 @@ class UpdateMode extends StatelessWidget {
                 FlatButton.icon(
                   color: Theme.of(context).buttonColor,
                   onPressed: () {
-                    Navigator.of(context).pushReplacement(PageRouteBuilder(
+                    Navigator.of(context).push(PageRouteBuilder(
                       pageBuilder: (_, animation, __) {
                         return DownloadingFileWidget();
                       },

@@ -11,7 +11,6 @@ import 'package:nepali_calendar/src/screens/home.dart';
 import 'package:nepali_calendar/src/screens/first_starting.dart';
 import 'package:nepali_calendar/src/screens/update_mode.dart';
 import 'package:nepali_calendar/src/screens/year_mode.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AppBase extends StatefulWidget {
   final int onYear;
@@ -79,14 +78,56 @@ class _AppBaseState extends State<AppBase> {
           // if loading for first time
           return FirstWidget();
         // if loaging not for first time
-        return BlocBuilder<CalendarModeCubit, int>(
-          builder: (context, calendarModeState) {
-            if (calendarModeState == 0) {
-              return HomeScreen();
-            } else if (calendarModeState == 1) {
-              return YearMode();
-            }
-            return UpdateMode();
+        return WillPopScope(
+          child: BlocBuilder<CalendarModeCubit, int>(
+            builder: (context, calendarModeState) {
+              if (calendarModeState == 0) {
+                return HomeScreen();
+              } else if (calendarModeState == 1) {
+                return YearMode();
+              }
+              return UpdateMode();
+            },
+          ),
+          onWillPop: () {
+            return showDialog(
+              context: context,
+              child: AlertDialog(
+                backgroundColor: Theme.of(context).primaryColor,
+                title: Text(
+                  'Exit app',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                ),
+                content: Text(
+                  'Do you want to exit the app?',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                ),
+                actions: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.check,
+                      color: Colors.green,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context, true);
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.close,
+                      color: Theme.of(context).errorColor,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context, false);
+                    },
+                  ),
+                ],
+              ),
+            );
           },
         );
       },

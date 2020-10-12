@@ -132,7 +132,7 @@ class _FirstWidgetState extends State<FirstWidget> {
                         duration: Duration(milliseconds: 350),
                         curve: Curves.decelerate);
                   } else {
-                    Navigator.of(context).pushReplacement(PageRouteBuilder(
+                    Navigator.of(context).push(PageRouteBuilder(
                       pageBuilder: (_, animation, __) {
                         return DownloadingFileWidget();
                       },
