@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nepali_calendar/src/cubit/bottom_menu_cubit.dart';
 import 'package:nepali_calendar/src/cubit/language_cubit.dart';
+import 'package:nepali_calendar/src/screens/tools.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   @override
@@ -69,7 +70,27 @@ class CustomBottomNavigationBar extends StatelessWidget {
                           Icons.construction,
                           color: Theme.of(context).colorScheme.onPrimary,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(PageRouteBuilder(
+                            pageBuilder: (_, animation, __) {
+                              return ToolsScreen();
+                            },
+                            transitionDuration: Duration(milliseconds: 350),
+                            transitionsBuilder: (_, animation, __, child) {
+                              animation = CurvedAnimation(
+                                curve: Curves.decelerate,
+                                parent: animation,
+                              );
+                              return SlideTransition(
+                                position: Tween(
+                                  begin: Offset(0.0, 1.0),
+                                  end: Offset(0.0, 0.0),
+                                ).animate(animation),
+                                child: child,
+                              );
+                            },
+                          ));
+                        },
                       ),
                     ),
                   ),

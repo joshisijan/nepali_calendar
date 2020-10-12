@@ -109,24 +109,39 @@ class EventsScreen extends StatelessWidget {
               },
             ),
           ),
-          floatingActionButton: events.length > 0
+          floatingActionButton: currentDayIndex == 0
               ? FlatButton.icon(
                   color: Theme.of(context).primaryColorLight,
                   label: Text(
-                    'Goto today',
+                    'No event today',
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.onPrimary),
                   ),
                   icon: Icon(
-                    Icons.calendar_today,
+                    Icons.close,
                     color: Theme.of(context).colorScheme.onPrimary,
                   ),
-                  onPressed: () {
-                    itemScrollController.scrollTo(
-                        index: currentDayIndex, duration: Duration(seconds: 1));
-                  },
+                  onPressed: () {},
                 )
-              : SizedBox.shrink(),
+              : events.length > 0
+                  ? FlatButton.icon(
+                      color: Theme.of(context).primaryColorLight,
+                      label: Text(
+                        'Goto today',
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.onPrimary),
+                      ),
+                      icon: Icon(
+                        Icons.calendar_today,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
+                      onPressed: () {
+                        itemScrollController.scrollTo(
+                            index: currentDayIndex,
+                            duration: Duration(seconds: 1));
+                      },
+                    )
+                  : SizedBox.shrink(),
           body: events.length > 0
               ? ScrollablePositionedList.builder(
                   itemScrollController: itemScrollController,
