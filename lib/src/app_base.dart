@@ -9,9 +9,7 @@ import 'dart:async';
 import 'package:nepali_calendar/src/screens/full_screen_scaffold_loader.dart';
 import 'package:nepali_calendar/src/screens/home.dart';
 import 'package:nepali_calendar/src/screens/first_starting.dart';
-import 'package:nepali_calendar/src/screens/update_mode.dart';
 import 'package:nepali_calendar/src/screens/year_mode.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AppBase extends StatefulWidget {
   final int onYear;
@@ -38,24 +36,7 @@ class _AppBaseState extends State<AppBase> {
     if (widget.onYear != null) {
       context.bloc<CalendarCubit>().getCalendar(widget.onYear);
     }
-    firebaseMessaging.configure(
-      // ignore: missing_return
-      onMessage: (message) {
-        if (message['data']['forUpdate'] != null) {
-          context.bloc<CalendarModeCubit>().changeMode(2);
-        }
-      },
-      // ignore: missing_return
-      onLaunch: (message) async {
-        context.bloc<CalendarModeCubit>().changeMode(2);
-      },
-      // ignore: missing_return
-      onResume: (message) {
-        if (message['data']['forUpdate'] != null) {
-          context.bloc<CalendarModeCubit>().changeMode(2);
-        }
-      },
-    );
+    firebaseMessaging.configure();
   }
 
   @override
@@ -76,15 +57,19 @@ class _AppBaseState extends State<AppBase> {
           return FirstWidget();
         // if loaging not for first time
         return WillPopScope(
-          child: BlocBuilder<CalendarModeCubit, int>(
-            builder: (context, calendarModeState) {
-              if (calendarModeState == 0) {
-                return HomeScreen();
-              } else if (calendarModeState == 1) {
-                return YearMode();
-              }
-              return UpdateMode();
-            },
+          child: Stack(
+            children: [
+              Container(
+                child: BlocBuilder<CalendarModeCubit, int>(
+                  builder: (context, calendarModeState) {
+                    if (calendarModeState == 0) {
+                      return HomeScreen();
+                    }
+                    return YearMode();
+                  },
+                ),
+              ),
+            ],
           ),
           onWillPop: () {
             return showDialog(
