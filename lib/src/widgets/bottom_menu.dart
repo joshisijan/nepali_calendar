@@ -165,27 +165,66 @@ class BottomMenu extends StatelessWidget {
                         ),
                       ],
                     );
-                  return FlatIconButton(
-                    firstChild: Icon(
-                      Icons.calendar_today,
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
-                    secondChild: Text(
-                      languageState == 0
-                          ? 'View current year'
-                          : 'हालको वर्ष हेर्नुहोस्',
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.onPrimary),
-                    ),
-                    containerUse: true,
-                    onPressed: () {
-                      context.bloc<CalendarModeCubit>().changeMode(0);
-                      context.bloc<CalendarCubit>().getCalendar(
-                          CurrentTimeModel(englishDateTime: DateTime.now())
-                              .nepaliDateTime
-                              .year);
-                      context.bloc<BottomMenuCubit>().toggleMenu();
-                    },
+                  return Column(
+                    children: [
+                      FlatIconButton(
+                        containerUse: true,
+                        onPressed: null,
+                        firstChild: Icon(
+                          Icons.theater_comedy,
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                        secondChild: Text(
+                          languageState == 0 ? 'Theme' : 'थीम',
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.onPrimary),
+                        ),
+                      ),
+                      BlocBuilder<ThemeCubit, int>(
+                        builder: (context, themeState) {
+                          return Wrap(
+                            children: [
+                              CustomFilterChip(
+                                label: languageState == 0 ? 'Light' : 'लाईट',
+                                selected: themeState == 0 ? true : false,
+                                onSelected: (value) {
+                                  context.bloc<ThemeCubit>().setTheme(0);
+                                },
+                              ),
+                              CustomFilterChip(
+                                label: languageState == 0 ? 'Dark' : 'डार्क',
+                                selected: themeState == 1 ? true : false,
+                                onSelected: (value) {
+                                  context.bloc<ThemeCubit>().setTheme(1);
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                      FlatIconButton(
+                        firstChild: Icon(
+                          Icons.calendar_today,
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                        secondChild: Text(
+                          languageState == 0
+                              ? 'View current year'
+                              : 'हालको वर्ष हेर्नुहोस्',
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.onPrimary),
+                        ),
+                        containerUse: true,
+                        onPressed: () {
+                          context.bloc<CalendarModeCubit>().changeMode(0);
+                          context.bloc<CalendarCubit>().getCalendar(
+                              CurrentTimeModel(englishDateTime: DateTime.now())
+                                  .nepaliDateTime
+                                  .year);
+                          context.bloc<BottomMenuCubit>().toggleMenu();
+                        },
+                      ),
+                    ],
                   );
                 },
               ),

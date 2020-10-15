@@ -113,7 +113,7 @@ class EventsScreen extends StatelessWidget {
               ? FlatButton.icon(
                   color: Theme.of(context).primaryColorLight,
                   label: Text(
-                    'Nothing today',
+                    language == 0 ? 'Nothing today' : 'आज केहि छैन',
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.onPrimary),
                   ),
@@ -127,7 +127,7 @@ class EventsScreen extends StatelessWidget {
                   ? FlatButton.icon(
                       color: Theme.of(context).primaryColorLight,
                       label: Text(
-                        'Goto today',
+                        language == 0 ? 'Goto today' : 'आजको मितिमा जानुहोस्',
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.onPrimary),
                       ),

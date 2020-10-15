@@ -12,6 +12,7 @@ import 'package:nepali_calendar/src/widgets/bottom_menu.dart';
 import 'package:nepali_calendar/src/widgets/bottom_navigation_bar.dart';
 import 'package:nepali_calendar/src/widgets/calendar_container.dart';
 import 'package:nepali_calendar/src/widgets/calendar_error.dart';
+import 'package:nepali_calendar/src/widgets/update_notifier.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -147,6 +148,23 @@ class HomeScreen extends StatelessWidget {
                                         : 1,
                                   ),
                                 ),
+                              ),
+                            ),
+                            AnimatedPositioned(
+                              curve: Curves.decelerate,
+                              duration: Duration(milliseconds: 350),
+                              bottom: 0.0,
+                              left: 0.0,
+                              right: !calendarState.hasUpdate
+                                  ? MediaQuery.of(context).size.width
+                                  : 0.0,
+                              top: 0.0,
+                              child: CustomUpdateNotifier(
+                                year: languageState == 0
+                                    ? calendarState.calendar['year'].toString()
+                                    : CustomTimeUtil().englishToNepaliDate(
+                                        calendarState.calendar['year']),
+                                languageState: languageState,
                               ),
                             ),
                             AnimatedPositioned(

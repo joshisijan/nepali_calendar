@@ -4,6 +4,8 @@ ColorScheme kLightColorScheme = ThemeData.light().colorScheme.copyWith(
       primary: Colors.indigo[900],
       onPrimary: Colors.white,
       secondary: Colors.lightBlue,
+      surface: Colors.indigo[700],
+      onSurface: Colors.white,
     );
 
 ThemeData kAppLightTheme = ThemeData.light().copyWith(
@@ -21,6 +23,8 @@ ThemeData kAppLightTheme = ThemeData.light().copyWith(
 ThemeData kAppDarkTheme = ThemeData.dark().copyWith(
   colorScheme: ThemeData.dark().colorScheme.copyWith(
         secondary: Colors.blueGrey,
+        surface: Colors.blueGrey[900],
+        onSurface: Colors.white,
       ),
   accentColor: ThemeData.dark().primaryColorLight,
   floatingActionButtonTheme: FloatingActionButtonThemeData(

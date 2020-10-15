@@ -57,19 +57,13 @@ class _AppBaseState extends State<AppBase> {
           return FirstWidget();
         // if loaging not for first time
         return WillPopScope(
-          child: Stack(
-            children: [
-              Container(
-                child: BlocBuilder<CalendarModeCubit, int>(
-                  builder: (context, calendarModeState) {
-                    if (calendarModeState == 0) {
-                      return HomeScreen();
-                    }
-                    return YearMode();
-                  },
-                ),
-              ),
-            ],
+          child: BlocBuilder<CalendarModeCubit, int>(
+            builder: (context, calendarModeState) {
+              if (calendarModeState == 0) {
+                return HomeScreen();
+              }
+              return YearMode();
+            },
           ),
           onWillPop: () {
             return showDialog(

@@ -22,7 +22,9 @@ class CalendarError extends CalendarState {
 
 class CalendarLoaded extends CalendarState {
   final Map<String, dynamic> calendar;
-  CalendarLoaded({this.calendar}) : super(error: '', calendar: calendar);
+  final bool hasUpdate;
+  CalendarLoaded({this.calendar, this.hasUpdate = false})
+      : super(error: '', calendar: calendar);
 }
 
 class CalendarFileError extends CalendarState {
